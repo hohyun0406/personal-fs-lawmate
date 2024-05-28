@@ -1,0 +1,35 @@
+version: "3.2"
+services:
+  database:
+    container_name: lawcase-container
+    image: mysql:8.0.22
+    volumes:
+      - ~/docker/mysql/lawcase/etc/mysql/conf.d:/etc/mysql/conf.d:ro
+      - ~/docker/mysql/lawcase/var/lib/mysql:/var/lib/mysql
+      - ~/docker/mysql/lawcase/var/log/mysql:/var/log/mysql
+    environment:
+      - MYSQL_DATABASE=lawdb
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_ROOT_HOST=%
+    command: ['--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    ports:
+      - 3306:3306
+    networks:
+      - law_env
+  #    Mac
+  #    platform: linux/amd64
+  application:
+    build: .
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://lawcase-container:3306/lawdb
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - law_env
+networks:
+  law_env:
+    driver: bridge
