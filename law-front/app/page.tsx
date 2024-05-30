@@ -16,7 +16,7 @@ import { useRouter } from "next/navigation";
 
 const theme = createTheme();
 
-export default function SignInSide() {
+export default function LogInPage() {
   const router = useRouter();
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

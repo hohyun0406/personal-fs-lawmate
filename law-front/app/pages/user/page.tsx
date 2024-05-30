@@ -12,23 +12,38 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
+import { saveNewUser } from "@/app/components/user/service/user-service"; // 예시로 경로를 추가했습니다. 실제 경로로 수정하세요.
+import { getNewUser } from "@/app/components/user/service/user-slice";
 
 const theme = createTheme();
 
-export default function SignUp() {
+export default function JoinPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const joinMessage = useSelector(getNewUser);
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      firstName: data.get("firstName"),
-      lastName: data.get("lastName"),
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    alert("회원가입 성공");
-    router.push("/"); // 회원가입 성공 시 login 페이지로 이동
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data: any) => {
+    console.log(data);
+
+    dispatch(saveNewUser(data))
+      .then((res: any) => {
+        console.log(res);
+        console.log(joinMessage);
+        alert("회원가입 성공");
+        router.push("/"); // 회원가입 성공 시 login 페이지로 이동
+      })
+      .catch((error: any) => {
+        console.error("Error:", error);
+        alert("회원가입 실패");
+      });
   };
 
   return (
@@ -52,50 +67,50 @@ export default function SignUp() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(onSubmit)}
             sx={{ mt: 3 }}
           >
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
                   required
                   fullWidth
-                  id="firstName"
-                  label="First Name"
+                  id="username"
+                  label="ID"
+                  {...register("username", { required: true })}
+                  autoComplete="new-u"
                   autoFocus
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
                   label="Password"
                   type="password"
                   id="password"
+                  {...register("password", { required: true })}
                   autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="name"
+                  label="Name"
+                  {...register("name", { required: true })}
+                  autoComplete="name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phone"
+                  label="Phone"
+                  {...register("phone", { required: true })}
+                  autoComplete="phone"
                 />
               </Grid>
             </Grid>

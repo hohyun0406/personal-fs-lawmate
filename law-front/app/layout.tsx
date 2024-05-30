@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import ReduxProvider from "@/redux/redux-provider";
+import { parseCookies } from "nookies";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,9 +16,17 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={inter.className}>
+        
+      <div className="mt-100">
+        <ReduxProvider > 
+        {parseCookies().message === 'SUCCESS' && <Header/>}
+          {children}</ReduxProvider>
+        </div>
+      </body>
     </html>
   );
 }

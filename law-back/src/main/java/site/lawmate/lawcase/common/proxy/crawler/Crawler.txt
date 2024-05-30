@@ -1,0 +1,13 @@
+-참고하세용. 모르면 서치하기-
+
+0) jsoup 라이브러리
+jsoup api를 사용해 크롤링해오기.
+
+1) Document 클래스
+ : 연결해서 얻어온 HTML 전체 문서
+
+2) Elements 클래스
+ : Element가 모인 자료형
+
+3) Element 클래스
+ : Document의 HTML 요소
