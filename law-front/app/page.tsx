@@ -13,20 +13,52 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useForm } from "react-hook-form";
+import { loginUser } from "./components/user/service/user-service";
+import { parseCookies, setCookie } from "nookies";
+import { jwtDecode } from "jwt-decode";
 
 const theme = createTheme();
 
 export default function LogInPage() {
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-    router.push("/pages/board/list"); // 로그인 성공 시 boardlist로 이동
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (data: any) => {
+    console.log(data);
+
+    dispatch(loginUser(data))
+      .then((res: any) => {
+        console.log("서버에서 넘어온 RES " + JSON.stringify(res));
+        console.log("서버에서 넘어온 메시지 1 " + res.payload.message);
+        console.log("서버에서 넘어온 토큰 1 " + res.payload.accessToken);
+        setCookie({}, "message", res.payload.message, {
+          httpOnly: false,
+          path: "/",
+        });
+        setCookie({}, "accessToken", res.payload.accessToken, {
+          httpOnly: false,
+          path: "/",
+        });
+        console.log("서버에서 넘어온 메시지 2 " + parseCookies().message);
+        console.log("서버에서 넘어온 토큰 2 " + parseCookies().accessToken);
+        console.log("토큰을 디코드한 내용 : ");
+        console.log(jwtDecode<any>(parseCookies().accessToken));
+
+        alert("로그인 성공");
+        router.push("/pages/board/list"); // 회원가입 성공 시 login 페이지로 이동
+      })
+      .catch((error: any) => {
+        console.error("Error:", error);
+        alert("로그인 실패");
+      });
   };
 
   return (
@@ -69,27 +101,27 @@ export default function LogInPage() {
             <Box
               component="form"
               noValidate
-              onSubmit={handleSubmit}
+              onSubmit={handleSubmit(onSubmit)}
               sx={{ mt: 1 }}
             >
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
+                id="username"
+                label="ID"
+                {...register("username", { required: true })}
+                autoComplete="current-username"
                 autoFocus
               />
               <TextField
                 margin="normal"
                 required
                 fullWidth
-                name="password"
                 label="Password"
                 type="password"
                 id="password"
+                {...register("password", { required: true })}
                 autoComplete="current-password"
               />
               <Button

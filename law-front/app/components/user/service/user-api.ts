@@ -26,7 +26,7 @@ export const joinAPI = async (user:IUser) => {
 export const loginAPI = async (user:IUser) => {
     console.log(`로그인API에 넘어온 파라미터 : ${JSON.stringify(user)}`)
     try {const response = await instance().post('/auth/login', user)
-        return response.data.message
+        return response.data
     } catch (error) {
         console.log("답 없음")
         return error

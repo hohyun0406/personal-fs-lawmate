@@ -14,15 +14,13 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { saveNewUser } from "@/app/components/user/service/user-service"; // 예시로 경로를 추가했습니다. 실제 경로로 수정하세요.
-import { getNewUser } from "@/app/components/user/service/user-slice";
+import { saveNewUser } from "@/app/components/user/service/user-service";
 
 const theme = createTheme();
 
 export default function JoinPage() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const joinMessage = useSelector(getNewUser);
 
   const {
     register,
@@ -36,7 +34,7 @@ export default function JoinPage() {
     dispatch(saveNewUser(data))
       .then((res: any) => {
         console.log(res);
-        console.log(joinMessage);
+        console.log(res.payload);
         alert("회원가입 성공");
         router.push("/"); // 회원가입 성공 시 login 페이지로 이동
       })

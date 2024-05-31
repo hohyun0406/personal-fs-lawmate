@@ -38,7 +38,7 @@ public class JwtProvider {
                 .issuer(issuer)
                 .signWith(secretKey)
                 .expiration(Date.from(expiredDate))
-                .subject("rod")
+                .subject("law-project")
                 .claim("username", userDto.getUsername())
                 .claim("phone", userDto.getPhone())
                 .claim("userId", userDto.getId())
