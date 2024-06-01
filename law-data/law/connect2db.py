@@ -11,7 +11,7 @@ data['소관부처코드'] = data['소관부처코드'].fillna('0').astype(str) 
 
 # MySQL 데이터베이스에 연결
 connection = mysql.connector.connect(
-    host='localhost',
+    host='223.130.154.72',
     port=3306,
     user='root',
     password='root',
@@ -27,7 +27,7 @@ if connection.is_connected():
 
     # 테이블 생성 (필요시)
     create_table_query = '''
-    CREATE TABLE IF NOT EXISTS law_data (
+    CREATE TABLE IF NOT EXISTS boards (
         법령일련번호 INT,
         현행연혁코드 VARCHAR(255),
         법령명한글 VARCHAR(255),
@@ -48,7 +48,7 @@ if connection.is_connected():
     
     # 데이터 삽입
     insert_query = '''
-    INSERT INTO law_data (법령일련번호, 현행연혁코드, 법령명한글, 법령약칭명, 법령ID, 공포일자, 공포번호, 제개정구분명, 소관부처코드, 소관부처명, 법령구분명, 시행일자, 법령상세링크)
+    INSERT INTO boards (법령일련번호, 현행연혁코드, 법령명한글, 법령약칭명, 법령ID, 공포일자, 공포번호, 제개정구분명, 소관부처코드, 소관부처명, 법령구분명, 시행일자, 법령상세링크)
     VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
     '''
     

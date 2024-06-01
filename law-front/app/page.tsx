@@ -53,7 +53,7 @@ export default function LogInPage() {
         console.log(jwtDecode<any>(parseCookies().accessToken));
 
         alert("로그인 성공");
-        router.push("/pages/board/list"); // 회원가입 성공 시 login 페이지로 이동
+        router.push("/pages/board/card"); // 회원가입 성공 시 login 페이지로 이동
       })
       .catch((error: any) => {
         console.error("Error:", error);
@@ -72,7 +72,7 @@ export default function LogInPage() {
           md={7}
           sx={{
             backgroundImage:
-              "url(https://images3.alphacoders.com/133/thumb-1920-1332803.png)",
+              "url(https://r4.wallpaperflare.com/wallpaper/321/1023/651/1920x1080-px-bridge-digital-art-fantasy-art-pixel-art-waterfall-anime-gundam-seed-hd-art-wallpaper-3940e89d61da2d9b76d7a85f6021e61d.jpg)",
             backgroundRepeat: "no-repeat",
             backgroundColor: (t) =>
               t.palette.mode === "light"
