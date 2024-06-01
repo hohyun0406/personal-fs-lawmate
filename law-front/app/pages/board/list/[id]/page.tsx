@@ -23,19 +23,26 @@ export default function BoardDetail({ params }: any) {
   }, [params.id, dispatch]);
 
   const columns = [
-    { field: '법령일련번호', headerName: '법령일련번호', width: 150 },
-    { field: '현행연혁코드', headerName: '현행연혁코드', width: 150 },
-    { field: '법령명한글', headerName: '법령명한글', width: 150 },
-    { field: '법령약칭명', headerName: '법령약칭명', width: 150 },
-    { field: '법령ID', headerName: '법령ID', width: 150 },
-    { field: '공포일자', headerName: '공포일자', width: 150 },
-    { field: '공포번호', headerName: '공포번호', width: 150 },
-    { field: '제개정구분명', headerName: '제개정구분명', width: 150 },
-    { field: '소관부처코드', headerName: '소관부처코드', width: 150 },
-    { field: '소관부처명', headerName: '소관부처명', width: 150 },
-    { field: '법령구분명', headerName: '법령구분명', width: 150 },
-    { field: '시행일자', headerName: '시행일자', width: 150 },
-    { field: '법령상세링크', headerName: '법령상세링크', width: 300 },
+    { field: "법령일련번호", headerName: "법령일련번호", width: 150 },
+    { field: "현행연혁코드", headerName: "현행연혁코드", width: 150 },
+    {
+      field: "법령명한글",
+      headerName: "법령명한글",
+      width: 200,
+      renderCell: (link) => {
+        const lawLink = `http://www.law.go.kr${link.row.법령상세링크}`;
+        return <a href={lawLink} target="_blank" rel="noopener noreferrer">{link.value}</a>;
+      },
+    },
+    { field: "법령약칭명", headerName: "법령약칭명", width: 150 },
+    { field: "법령ID", headerName: "법령ID", width: 150 },
+    { field: "공포일자", headerName: "공포일자", width: 150 },
+    { field: "공포번호", headerName: "공포번호", width: 150 },
+    { field: "제개정구분명", headerName: "제개정구분명", width: 150 },
+    { field: "소관부처코드", headerName: "소관부처코드", width: 150 },
+    { field: "소관부처명", headerName: "소관부처명", width: 150 },
+    { field: "법령구분명", headerName: "법령구분명", width: 150 },
+    { field: "시행일자", headerName: "시행일자", width: 150 },
   ];
 
   return (
